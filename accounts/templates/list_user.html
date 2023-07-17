@@ -1,0 +1,42 @@
+{% extends "main/base-main.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <p {{ TBL.titre }}>List all users</p>
+        <table {{ TBL.model }}>
+            <thead {{ TBL.head }}>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody {{ TBL.body }}>
+
+            {% for user in object_list %}
+                <tr>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>
+                        <a {{ BTN.update_tbl }} href="{% url 'change_password' user.id  %}">Change Password</a>
+                        <a {{ BTN.edit_tbl }} href="{% url 'add_user' %}">Edit User</a>
+                        <a {{ BTN.remove_tbl }} href="{% url 'add_user' %}">Remove User</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td>No user ...</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        <a {{ BTN.add }} href="{% url 'add_user' %}">Add User</a>
+    </div>
+
+{% endblock %}

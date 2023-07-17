@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <style>
+        a:link, a:visited {
+            background-color: rgba(197, 54, 244, 0.17);
+            color: white;
+            padding: 5px 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        a:hover, a:active {
+            background-color: #0d7ff0;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>
+        Welcome To
+        <strong class="h1" title="Running App/Script in Servers">RunAppServer</strong>
+    </h1>
+    <hr>
+    <p style="color: #0f5132">This Web Application <br> is Running App/Script in Servers.</p>
+    <div class="row">
+        <div class="col-auto">
+            <img src="{% static '/images/server-big.png' %}" width="100px" height="100px" style="float: left">
+        </div>
+        <div class="col-auto">
+            {% block login %}
+                <cite style="font-size: small">
+                    <a href="{% url 'login' %}">Login to WebApp</a>
+                    <a href="{% url 'home' %}">Home</a>
+                    <pre style="font-size: medium ;font-size: 120%  ; text-align: left">
+    please login to webapp.
+    this webapp is run app or script in servers,
+    ...
+    </pre>
+                </cite>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
