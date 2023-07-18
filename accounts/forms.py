@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserModel
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -22,7 +23,8 @@ class CustomUserCreationForm(UserCreationForm):
 
 class UserChangePasswordForm(forms.ModelForm):
     class Meta:
-        fields = ['']
+        fields = "__all__"
+        model = UserModel
 
     def save(self, pk, commit=True):
         if commit:
