@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserModel
+from django.core.exceptions import ValidationError
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -21,14 +22,25 @@ class CustomUserCreationForm(UserCreationForm):
         return user
 
 
-class UserChangePasswordForm(forms.ModelForm):
-    class Meta:
-        fields = "__all__"
-        model = UserModel
+class UserChangePasswordForm(forms.Form):
+    password = forms.CharField(max_length=150, widget=forms.PasswordInput)
+    password_confirm = forms.CharField(max_length=150, widget=forms.PasswordInput)
 
-    def save(self, pk, commit=True):
-        if commit:
-            user = User.objects.get(pk=pk)
-            user.password = self.cleaned_data['password1']
-            user.save()
-        return user
+    def clean(self):
+        cleaned_data = super().clean()
+        password = self.cleaned_data.get('password')
+        password_confirm = self.cleaned_data.get('password_confirm')
+        if password != password_confirm:
+            raise ValidationError('password does not match')
+        return self.cleaned_data
+
+
+class EditUserForm(forms.ModelForm):
+    class Meta:
+        model = UserModel
+        fields = ['first_name', 'last_name', 'email']
+
+
+class DeleteUserForm(forms.Form):
+    User = forms.BooleanField(label='Are you sure you want to delete User ?',
+                              error_messages={'required': 'Please Checked Box For Delete User'})

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from .env import BTN, TBL
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
 
@@ -15,7 +15,7 @@ def main_index(request):
     return render(request, 'main/index.html', {'title': 'RunAppServer-main'})
 
 
-class CustomListView(LoginRequiredMixin, SuccessMessageMixin, generic.ListView):
+class CustomListView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, generic.ListView):
     paginate_by = 10
     ordering = ['-id']
 
@@ -26,15 +26,37 @@ class CustomListView(LoginRequiredMixin, SuccessMessageMixin, generic.ListView):
         return context
 
 
-class CustomCreateView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+class CustomCreateView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["BTN"] = BTN()
         return context
 
 
-class CustomUpdateView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
+class CustomUpdateView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["BTN"] = BTN()
+        return context
+
+
+class CustomFormView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, generic.FormView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["BTN"] = BTN()
+        return context
+
+
+class CustomDeleteView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, generic.DeleteView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["BTN"] = BTN()
+        return context
+
+
+class CustomDetailView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, generic.DetailView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["BTN"] = BTN()
+        context["TBL"] = TBL()
         return context

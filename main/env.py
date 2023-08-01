@@ -1,4 +1,21 @@
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True)
 class BTN:
+    add_disable: str = 'class="btn btn-success disabled"'
+    edit_disable: str = 'class="btn btn-warning disabled"'
+    delete_disable: str = 'class="btn btn-danger disabled"'
+    update_disable: str = 'class="btn btn-primary disabled"'
+    cancel_disable: str = 'class="btn btn-secondary disabled"'
+    info_disable: str = 'class="btn btn-info disabled"'
+
+    add_tbl_disable: str = 'class="btn btn-outline-success disabled"'
+    edit_tbl_disable: str = 'class="btn btn-outline-warning disabled"'
+    delete_tbl_disable: str = 'class="btn btn-outline-danger disabled"'
+    update_tbl_disable: str = 'class="btn btn-outline-primary disabled"'
+    cancel_tbl_disable: str = 'class="btn btn-outline-secondary disabled"'
+    info_tbl_disable: str = 'class="btn btn-outline-info disabled"'
 
     @property
     def add(self):
@@ -9,7 +26,7 @@ class BTN:
         return 'class="btn btn-warning"'
 
     @property
-    def remove(self):
+    def delete(self):
         return 'class="btn btn-danger"'
 
     @property
@@ -21,6 +38,10 @@ class BTN:
         return 'class="btn btn-secondary"'
 
     @property
+    def info(self):
+        return 'class="btn btn-info"'
+
+    @property
     def add_tbl(self):
         return 'class="btn btn-outline-success"'
 
@@ -29,7 +50,7 @@ class BTN:
         return 'class="btn btn-outline-warning"'
 
     @property
-    def remove_tbl(self):
+    def delete_tbl(self):
         return 'class="btn btn-outline-danger"'
 
     @property
@@ -39,6 +60,10 @@ class BTN:
     @property
     def cancel_tbl(self):
         return 'class="btn btn-outline-secondary"'
+
+    @property
+    def info_tbl(self):
+        return 'class="btn btn-outline-info"'
 
 
 class TBL:

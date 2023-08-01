@@ -21,7 +21,16 @@
                        data-bs-toggle="dropdown">User</a>
                     <ul class="dropdown-menu bg-dark text-primary bg-opacity-75 text-bg-primary h5">
                         {% if  request.user.is_authenticated %}
-                            <li><a class="dropdown-item text-primary h5" href="{% url 'list_user' %}">List</a></li>
+                            {% if perms.group.can_view_group %}
+                                <li><a class="dropdown-item text-primary h5"
+                                       href="{% url 'list_group' %}">List Group</a>
+                                </li>
+                            {% endif %}
+                            {% if perms.user.can_view_user %}
+                                <li><a class="dropdown-item text-primary h5"
+                                       href="{% url 'list_user' %}">List User</a>
+                                </li>
+                            {% endif %}
                             <li><a class="dropdown-item text-primary h5" href="{% url 'logout' %}">Logout</a></li>
                         {% else %}
                             <li><a class="dropdown-item text-primary h5" href="{% url 'login' %}">Login</a></li>
@@ -31,8 +40,8 @@
             </ul>
         </div>
         <div class="col-3  ">
-            {% if user.is_authenticated %}
-                <p class="text-info h5"> User : {{ user.first_name }} {{ user.last_name }}</p>
+            {% if request.user.is_authenticated %}
+                <p class="text-info h5"> User : {{ request.user.first_name }} {{ request.user.last_name }}</p>
             {% endif %}
         </div>
     </nav>

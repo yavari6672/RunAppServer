@@ -1,25 +1,25 @@
 {% extends "main/base-main.html" %}
 {% block content %}
     <div class="container">
-        <p {{ TBL.titre }}>List All User</p>
+        <p {{ TBL.titre }}>List All Group For {{ full_name }}</p>
         <table {{ TBL.model }}>
             <thead {{ TBL.head }}>
             <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-                <th>Username</th>
+                <th>Name</th>
+                {#                <th>Lastname</th>#}
+                {#                <th>Email</th>#}
+                {#                <th>Username</th>#}
                 <th>Action</th>
             </tr>
             </thead>
             <tbody {{ TBL.body }}>
 
-            {% for user in object_list %}
+            {% for group in object %}
                 <tr>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.username }}</td>
+                    <td>{{ group.name }}</td>
+                    {#                    <td>{{ user.last_name }}</td>#}
+                    {#                    <td>{{ user.email }}</td>#}
+                    {#                    <td>{{ user.username }}</td>#}
                     <td>
                         <a {% if  perms.user.can_change_user %}
                             {{ BTN.update_tbl }}
@@ -41,16 +41,12 @@
                         {% else %}
                             {{ BTN.info_tbl_disable }}
                         {% endif %} href="{% url 'group_detail' user.id %}">Show Groups</a>
-                        <a {% if  perms.permission.can_view_permission %}
-                            {{ BTN.info_tbl }}
-                        {% else %}
-                            {{ BTN.info_tbl_disable }}
-                        {% endif %} href="{% url 'user_permissions' user.id %}">Show Permissions</a>
+
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td>No user ...</td>
+                    <td>No group ...</td>
                 </tr>
             {% endfor %}
 

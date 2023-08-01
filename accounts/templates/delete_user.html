@@ -1,12 +1,12 @@
 {% extends "main/base-main.html" %}
 {% block content %}
-    <p class="h3">Change Password </p>
+    <p class="h3">Delete User</p>
     <p>full name : {{ first_name }} {{ last_name }}</p>
     <p>username : {{ username }}</p>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" {{ BTN.update }} }>Change Password</button>
+        <p> {{ form }}</p>
+        <button type="submit" {{ BTN.delete }} }>Delete User</button>
         <a {{ BTN.cancel }} href="{% url 'list_user' %}">Cancel</a>
     </form>
 {% endblock %}
