@@ -1,2 +1,1 @@
-Running App/Script in Server  
-ok
+Running App/Script in Server
