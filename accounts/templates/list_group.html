@@ -8,10 +8,6 @@
             <thead {{ TBL.head }}>
             <tr>
                 <th>Name</th>
-{#                <th>Lastname</th>#}
-{#                <th>Email</th>#}
-{#                <th>Username</th>#}
-{#                <th>Group</th>#}
                 <th>Action</th>
             </tr>
             </thead>
@@ -20,41 +16,37 @@
             {% for group in object_list %}
                 <tr>
                     <td>{{ group.name }}</td>
-{#                    <td>{{ user.last_name }}</td>#}
-{#                    <td>{{ user.email }}</td>#}
-{#                    <td>{{ user.username }}</td>#}
-{#                    <td>{{ user.groups.id }}</td>#}
                     <td>
-                        <a {% if  perms.user.can_change_user %}
-                            {{ BTN.update_tbl }}
-                        {% else %}
-                            {{ BTN.update_tbl_disable }}
-                        {% endif %} href="{% url 'change_password' user.id %}">Change Password</a>
-                        <a {% if perms.user.can_chnage_user %}
+                        <a {% if perms.group.can_chnage_group %}
                             {{ BTN.edit_tbl }}
                         {% else %}
                             {{ BTN.edit_tbl_disable }}
-                        {% endif %} href="{% url 'edit_user' user.id %}">Edit User</a>
-                        <a {% if perms.user.can_delete_user %}
+                        {% endif %} href="{% url 'edit_group' group.id %}">Edit Group</a>
+                        <a {% if perms.group.can_delete_group %}
                             {{ BTN.delete_tbl }}
                         {% else %}
                             {{ BTN.delete_tbl_disable }}
-                        {% endif %} href="{% url 'delete_user' user.id %}">Delete User</a>
+                        {% endif %} href="{% url 'delete_group' group.id %}">Delete Group</a>
+                        <a {% if  perms.permission.can_view_permission %}
+                            {{ BTN.info_tbl }}
+                        {% else %}
+                            {{ BTN.info_tbl_disable }}
+                        {% endif %} href="{% url 'user_permissions' group.id %}">Show Permissions</a>
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td>No user ...</td>
+                    <td>No Group ...</td>
                 </tr>
             {% endfor %}
 
             </tbody>
         </table>
-        <a {% if  perms.user.can_add_user %}
+        <a {% if  perms.group.can_add_group %}
             {{ BTN.add }}
         {% else %}
             {{ BTN.add_disable }}
-        {% endif %} href="{% url 'add_user' %}">Add User</a>
+        {% endif %} href="{% url 'add_group' %}">Add Group</a>
     </div>
 
 {% endblock %}

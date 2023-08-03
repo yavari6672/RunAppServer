@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserModel
 from django.core.exceptions import ValidationError
 
@@ -41,6 +41,17 @@ class EditUserForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email']
 
 
+class CustomGroupCreationForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['name']
+
+
 class DeleteUserForm(forms.Form):
     User = forms.BooleanField(label='Are you sure you want to delete User ?',
                               error_messages={'required': 'Please Checked Box For Delete User'})
+
+
+class DeleteGroupForm(forms.Form):
+    User = forms.BooleanField(label='Are you sure you want to delete Group ?',
+                              error_messages={'required': 'Please Checked Box For Delete Group'})

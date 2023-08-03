@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "main/base-main.html" %}
+{% block content %}
+    <p class="h3">Edit Group</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" {{ BTN.edit }} }>Edit Group</button>
+        <a {{ BTN.cancel }} href="{% url 'list_group' %}">Cancel</a>
+    </form>
+
+{% endblock %}

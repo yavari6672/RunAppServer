@@ -1,12 +1,13 @@
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
-from .forms import CustomUserCreationForm, UserChangePasswordForm, EditUserForm, DeleteUserForm
+from .forms import *
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.forms import UserModel
-from main.views import CustomListView, \
-    CustomCreateView, CustomUpdateView, CustomFormView, CustomDeleteView, CustomDetailView
+from main.views import *
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.shortcuts import render
@@ -19,6 +20,15 @@ class AddUserView(CustomCreateView):
     success_message = 'Add User Successfully'
     template_name = "add_user.html"
     permission_required = 'user.can_add_user'
+
+
+class AddGroupView(CustomCreateView):
+    form_class = CustomGroupCreationForm
+    # model = Group
+    success_url = reverse_lazy("list_group")
+    success_message = 'Add Group Successfully'
+    template_name = "add_group.html"
+    permission_required = 'group.can_add_group'
 
 
 class ListUserView(CustomListView):
@@ -39,7 +49,8 @@ def change_password(request, pk):
     user = get_object_or_404(User, pk=pk)
     context = {'first_name': user.first_name,
                'last_name': user.last_name,
-               'username': user.username, 'BTN': BTN()}
+               'username': user.username, 'BTN': BTN(),
+               "DATA_TIME_SERVER": datetime.now()}
     if request.method == 'POST':
         form = UserChangePasswordForm(request.POST)
         if form.is_valid():
@@ -55,6 +66,15 @@ def change_password(request, pk):
     return render(request, 'change_password.html', context)
 
 
+class EditGroupView(CustomUpdateView):
+    form_class = CustomGroupCreationForm
+    model = Group
+    success_url = reverse_lazy("list_group")
+    success_message = 'Edit Group Successfully'
+    template_name = "edit_group.html"
+    permission_required = 'group.can_change_group'
+
+
 class EditUserView(CustomFormView):
     template_name = 'edit_user.html'
     form_class = EditUserForm
@@ -66,7 +86,8 @@ class EditUserView(CustomFormView):
         self.kwargs['user_id'] = user_id
         user = User.objects.get(pk=user_id)
         form = EditUserForm(instance=user)
-        return render(request, 'edit_user.html', {'form': form, 'BTN': BTN()})
+        return render(request, 'edit_user.html', {'form': form, 'BTN': BTN(),
+                                                  "DATA_TIME_SERVER": datetime.now()})
 
     def post(self, request, user_id, *args, **kwargs):
         if self.kwargs['user_id'] and self.kwargs['user_id'] == user_id:
@@ -106,6 +127,21 @@ class DeleteUserView(CustomDeleteView):
         return context
 
 
+class DeleteGroupView(CustomDeleteView):
+    model = Group
+    form_class = DeleteGroupForm
+    template_name = 'delete_group.html'
+    success_url = reverse_lazy("list_group")
+    success_message = 'Delete Group Successfully'
+    permission_required = 'group.can_delete_group'
+
+    def get_context_data(self, **kwargs):
+        group = get_object_or_404(Group, pk=self.kwargs.get('pk'))
+        context = super().get_context_data(**kwargs)
+        context['group_name'] = group.name
+        return context
+
+
 class GroupDetailView(CustomDetailView):
     # model = User
     # queryset = User.objects.all()
@@ -117,11 +153,8 @@ class GroupDetailView(CustomDetailView):
         context['full_name'] = User.objects.get(pk=self.kwargs['pk']).get_full_name()
         return context
 
-    def get_queryset(self):
-        user = User.objects.get(pk=self.kwargs['pk'])
-        queryset = user.groups.all().values()
-        # print(queryset)
-        return queryset
+    def get_object(self):
+        return User.objects.get(pk=self.kwargs['pk']).groups.all()
 
 
 class UserPermissionsView(CustomDetailView):

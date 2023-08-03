@@ -4,7 +4,7 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" {{ BTN.add }} }>Create</button>
+        <button type="submit" {{ BTN.add }} }>Create User</button>
         <a {{ BTN.cancel }} href="{% url 'list_user' %}">Cancel</a>
     </form>
 

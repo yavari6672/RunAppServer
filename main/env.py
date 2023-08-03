@@ -70,7 +70,7 @@ class TBL:
 
     @property
     def model(self):
-        return 'class="table  table-bordered table-hover  table-responsive-sm"'
+        return 'class="table  table-bordered table-hover  table-responsive" id = "TBL" '
 
     @property
     def head(self):
